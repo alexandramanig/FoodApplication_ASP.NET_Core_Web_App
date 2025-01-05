@@ -17,7 +17,6 @@ html {
 
 footer {
     background-color: #0d243d;
-    height: 270px;
 }
 
 header{
@@ -26,4 +25,20 @@ header{
 
 .dishCard{
     height:250px;
+}
+
+.fa-instagram {
+    color: #bc2a8b;
+}
+
+.fa-whatsapp {
+    color: #128C7E;
+}
+
+.fa-facebook {
+    color: #3b5998;
+}
+
+.fa-envelope {
+    color: #EA4335;
 }
