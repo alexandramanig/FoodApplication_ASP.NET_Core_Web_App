@@ -68,3 +68,7 @@ header{
 .recipe-item:hover a{
     color: #ffffff !important;
 }
+
+#order-img{
+    height:230px;
+}
