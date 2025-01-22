@@ -11,10 +11,13 @@
 			</div>
 		</div>
 		<div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
-			<form autocomplete="off" method="post" class="m-3 p-3">
+			<form autocomplete="off" method="post" class="m-3 p-3" action="/Account/Register">
 				<div class="mb-3">
 					<h2 class="text-pink fst-italic">Register</h2>
 					<span class="fst-italic text-muted">Create you account</span>
+				</div>
+				<div class="mb-3">
+					@Html.ValidationSummary()
 				</div>
 				<div class="form-floating mb-3">
 					@Html.TextBoxFor(m => m.Name, new{@class="form-control",placeholder="Name"})
@@ -33,7 +36,7 @@
 					<label for="Password">Password</label>
 				</div>
 				<div class="mb-3">
-					<button type="submit" class="btn btn-sm w-100 btn-dark p-2">Register</button>
+					<button type="submit" class="btn btn-sm w-100 btn-dark p-2 shadow rounded">Register</button>
 				</div>
 			</form>
 		</div>

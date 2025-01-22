@@ -3,6 +3,13 @@ html {
     min-height: 100%; 
 }
 
+/*@media(min-width: 768px) {
+    html {
+        font-size:16px;
+    }
+}
+*/
+
 .text-pink {
     color: #ff1448 !important;
 }
@@ -71,4 +78,8 @@ header{
 
 #order-img{
     height:230px;
+}
+
+.validation-summary-errors li {
+    color:#dc3545;
 }
