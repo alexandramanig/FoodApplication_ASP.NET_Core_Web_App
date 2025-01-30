@@ -10,9 +10,7 @@
 		<div class="col-sm-10 col-md-10 col-lg-10 col-xl-10">
 			<h2 class="text-dark">@Model.Title</h2>
 		</div>
-		<div class="col-sm-2 col-md-2 col-lg-2 col-xl-2">
-			<button type="button" class="btn btn-sm btn-success p-2 text-end">Order</button>
-		</div>
+		
 	</div>
 	<div class="row">
 		<div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
@@ -40,28 +38,37 @@
 		</div>
 		<div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
 			<div class="p-2">
-				<h4 class="text-dark">Bill Details</h4>
-				<div class="row border-bottom">
+				<p class="text-dark">Bill Details</p>
+				<div class="row border-bottom text-muted">
 					<label class="col-10 col-form-label">Price</label>
 					<div class="col-2">
+						<i class="fa-solid fa-indian-rupee-sign"></i>
 						<span>150</span>
 					</div>
 				</div>
-				<div class="row border-bottom">
-					<label class="col-10 col-form-label">Quantity</label>
-					<div class="col-2">
-						<span><i class="fa-solid fa-plus"></i></span>
-						<input type="text" class="form-control d-inline w-50 bg-white" readonly/>
-						<span><i class="fa-solid fa-minus"></i></span>
+				<div id="qtySection" class="row border-bottom">
+					<label class="col-9 col-form-label text-muted">Quantity</label>
+					<div class="col-3 border border-success border-2 p-1 text-center rounded">
+						<span><i class="fa-solid fa-plus text-success"></i></span>
+						<input type="text" id="qty" class="bg-white text-center text-success fw-bold"
+						value="1" readonly />
+						<span><i class="fa-solid fa-minus text-success"></i></span>
 					</div>
 				</div>
 				<div class="row border-bottom">
-					<label class="col-10 col-form-label">Delivery Change</label>
+					<label class="col-10 col-form-label text-muted">Delivery Change</label>
 					<label class="col-2 col-form-label text-success fw-bold">Free</label>
 				</div>
-				<div class="row">
+				<div class="px-1 mb-2">
+					<label class="form-label text-muted">Delivery Address</label>
+					<textarea class="form-control" name="Address"></textarea>
+				</div>
+				<div class="row border-top border-dark border-1">
 					<label class="col-10 col-form-label fs-5 fw-bold">Total</label>
-					<label class="col-2 col-form-label text-success fw-bold">150</label>
+					<div class="col-2">
+						<i class="fa-solid fa-indian-rupee-sign"></i>
+						150
+					</div>
 				</div>
 			</div>
 		</div>
