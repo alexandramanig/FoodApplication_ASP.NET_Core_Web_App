@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using FoodApplication.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FoodApplication.Controllers
 {
@@ -43,6 +44,7 @@ namespace FoodApplication.Controllers
             return PartialView("_ShowOrder", orderRecipeDetails);
         }
         [HttpPost]
+        [Authorize]
         public IActionResult Order(Order order)
         {
             return View(order);
