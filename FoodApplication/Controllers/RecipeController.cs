@@ -42,5 +42,10 @@ namespace FoodApplication.Controllers
             ViewBag.Address = user?.Address;
             return PartialView("_ShowOrder", orderRecipeDetails);
         }
+        [HttpPost]
+        public IActionResult Order(Order order)
+        {
+            return View(order);
+        }
     }
 }
