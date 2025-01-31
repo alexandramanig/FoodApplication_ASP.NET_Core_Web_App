@@ -32,18 +32,23 @@
                             <a class="nav-link text-pink fw-bold" asp-area="">Menu</a>
                         </li>
                     </ul>
-                    @if (!User.Identity.IsAuthenticated)
+                    @if (User.Identity!.IsAuthenticated)
                     {
-                        <div>
-                            <a class="nav-link fw-bold text-pink" asp-controller="Account"
-                               asp-action="Login">LogIn</a>
+                        <div class="d-flex justify-content-center align-content-center">
+                            <div class="text-center">
+                                <span><i class="fa-solid fa-cart-shopping text-pink fs-4"></i></span>
+                            </div>
+                            <div>
+                              <a class="nav-link fw-bold text-pink"
+                                 asp-controller="Account" asp-action="LogOut">LogOut</a>
+                            </div>
                         </div>
                     }
                     else
                     {
                         <div>
-                            <a class="nav-link fw-bold text-pink" 
-                            asp-controller="Account" asp-action="LogOut">LogOut</a>
+                            <a class="nav-link fw-bold text-pink" asp-controller="Account"
+                               asp-action="Login">LogIn</a>
                         </div>
                     }
                 </div>
