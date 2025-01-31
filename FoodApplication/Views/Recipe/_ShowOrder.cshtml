@@ -38,13 +38,16 @@
 		</div>
 		<div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
 			<form autocomplete="off" method="post">
+				<input type="hidden" value="@Model.Id" name="RecipeId"/>
+				<input type="hidden" value="@Model.Title" name="RecipeName"/>
+				<input type="hidden" value="@ViewBag.UserId" name="UserId"/>
 				<div class="p-2">
 					<p class="text-dark">Bill Details</p>
 					<div class="row border-bottom text-muted">
 						<label class="col-10 col-form-label">Price</label>
 						<div class="col-2">
 							<i class="fa-solid fa-indian-rupee-sign"></i>
-							<span>@ViewBag.Price</span>
+							<input id="price" type="text" value="@ViewBag.Price" name="Price" readonly/>
 						</div>
 					</div>
 					<div id="qtySection" class="row border-bottom">
@@ -52,7 +55,7 @@
 						<div class="col-3 border border-success border-2 p-1 text-center rounded">
 							<span onclick="quantity('inc')"><i class="fa-solid fa-plus text-success"></i></span>
 							<input type="text" id="qty" class="bg-white text-center text-success fw-bold"
-							value="1" readonly />
+							value="1" name="Quantity" readonly />
 							<span onclick="quantity('dec')"><i class="fa-solid fa-minus text-success"></i></span>
 						</div>
 					</div>
@@ -63,12 +66,13 @@
 					<div class="px-1 mb-2">
 						<label class="form-label text-muted">Delivery Address</label>
 						<input type="text" class="form-control" name="Address" value="@ViewBag.Address">
+						@Html.ValidationMessage("Address")
 					</div>
 					<div class="row border-top border-dark border-1">
 						<label class="col-10 col-form-label fs-5 fw-bold">Total</label>
 						<div class="col-2">
 							<i class="fa-solid fa-indian-rupee-sign"></i>
-							<span>@ViewBag.Price</span>
+							<input id="totalAmount" type="text" name="TotalAmount" readonly value="@ViewBag.Price"/>
 						</div>
 					</div>
 					<div>
