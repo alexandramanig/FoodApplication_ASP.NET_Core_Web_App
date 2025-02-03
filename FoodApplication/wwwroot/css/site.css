@@ -111,3 +111,11 @@ header{
 #totalAmount:focus, #price:focus{
     outline:none;
 }
+
+.addToCartIcon{
+    cursor:pointer;
+}
+
+.bg-black{
+    backdrop-color:#0d243d;
+}

@@ -1,4 +1,6 @@
-﻿namespace FoodApplication.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace FoodApplication.Models
 {
     public class OrderRecipeDetails
     {
