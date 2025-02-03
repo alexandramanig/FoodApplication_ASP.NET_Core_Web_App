@@ -1,5 +1,6 @@
 using FoodApplication.ContectDBConfig;
 using FoodApplication.Models;
+using FoodApplication.Repository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,6 +16,7 @@ options.UseSqlServer(dbconnection));
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<FoodApplicationDBContext>();
 
+builder.Services.AddTransient<IData, Data>();
 
 var app = builder.Build();
 
