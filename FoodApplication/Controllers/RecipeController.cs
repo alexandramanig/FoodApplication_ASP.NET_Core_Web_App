@@ -50,6 +50,7 @@ namespace FoodApplication.Controllers
                 return RedirectToAction("Index");
             }
 
+            Console.WriteLine($"Received ID: {id}");
             ViewBag.Id = id;
             return View();
         }

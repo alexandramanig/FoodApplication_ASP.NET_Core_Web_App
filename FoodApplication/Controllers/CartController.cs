@@ -26,30 +26,44 @@ namespace FoodApplication.Controllers
         [HttpPost]
         public async Task<IActionResult> SaveCart(Cart cart)
         {
-            try
+            Console.WriteLine("Received Cart Data:");
+            Console.WriteLine($"RecipeId: {cart.RecipeId}");
+            Console.WriteLine($"Title: {cart.Title}");
+            Console.WriteLine($"Image_url: {cart.Image_url}");
+            Console.WriteLine($"Publisher: {cart.Publisher}");
+
+            if (!ModelState.IsValid)
             {
-                var user = await data.GetUser(HttpContext.User);
-                if (user == null)
+                Console.WriteLine("Model State Errors:");
+                foreach (var error in ModelState)
                 {
-                    return Unauthorized(); // Dacă utilizatorul nu este autentificat
+                    Console.WriteLine($"Key: {error.Key}, Error: {string.Join(", ", error.Value.Errors.Select(e => e.ErrorMessage))}");
                 }
 
-                cart.UserId = user.Id;
-
-                if (ModelState.IsValid)
-                {
-                    await context.Carts.AddAsync(cart); // Asigură-te că utilizezi operațiunea asincronă
-                    await context.SaveChangesAsync();   // Salvează modificările asincron
-                    return Ok(new { Message = "Cart saved successfully" }); // Răspuns detaliat
-                }
-
-                return BadRequest(new { Error = "Invalid cart data", ModelState = ModelState });
+                return BadRequest(new { Error = "Invalid cart data", ModelState });
             }
-            catch (Exception ex)
+
+            var user = await data.GetUser(HttpContext.User);
+            if (user == null)
             {
-                // Loghează eroarea (poți folosi un serviciu de logare, dacă există)
-                return StatusCode(500, new { Error = "An error occurred while saving the cart", Details = ex.Message });
+                return Unauthorized();
             }
+
+            cart.UserId = user.Id;
+            await context.Carts.AddAsync(cart);
+            await context.SaveChangesAsync();
+
+            return Ok(new { Message = "Cart saved successfully" });
+        }
+
+
+
+        [HttpGet]
+        public async Task<IActionResult> GetAddedCarts()
+        {
+            var user = await data.GetUser(HttpContext.User);
+            var carts = context.Carts.Where(c=>c.UserId==user.Id).Select(c=>c.RecipeId).ToList();
+            return Ok(carts);
         }
     }
 }

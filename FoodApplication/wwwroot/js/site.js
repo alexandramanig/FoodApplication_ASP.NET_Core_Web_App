@@ -3,13 +3,14 @@ let apiURL = "https://forkify-api.herokuapp.com/api/v2/recipes";
 let apikey = "7ecac8c2-fcdf-42cf-bfca-0d9f6d9cf4b1";
 
 // Obține rețetele
-async function GetRecipes(recipeName, id, isAllShow) {
+async function GetRecipes(recipeName, recipeId, isAllShow) {
     try {
+        console.log(recipeId); // Verifică dacă `recipeId` este definit corect
         let resp = await fetch(`${apiURL}?search=${recipeName}&key=${apikey}`);
         if (!resp.ok) throw new Error(`HTTP error! status: ${resp.status}`);
         let result = await resp.json();
         let Recipes = isAllShow ? result.data.recipes : result.data.recipes.slice(0, 6);
-        showRecipe(Recipes, id);
+        showRecipe(Recipes, recipeId);  // Asigură-te că folosești `recipeId` aici
     } catch (error) {
         console.error("Error fetching recipes:", error);
     }
@@ -29,9 +30,7 @@ function showRecipe(recipes, id) {
         data: JSON.stringify(recipes),
         success: function (htmlResult) {
             $('#' + id).html(htmlResult);
-        },
-        error: function (err) {
-            console.error("Error fetching recipe cards:", err);
+            getAddedCarts();
         }
     });
 }
@@ -91,40 +90,72 @@ function quantity(option) {
     totalAmountElement.val(totalAmount);
 }
 
-// Adaugă la coș
+// Funcția pentru adăugarea la coș
 async function cart() {
     let iTag = $(this).children('i')[0];
-    let recipeId = $(iTag).attr('data-recipeId');
-    console.log(recipeId);
-
+    let recipeId = $(this).attr('data-recipeId');
     if ($(iTag).hasClass('fa-regular')) {
-        try {
-            let resp = await fetch(`${apiURL}/${recipeId}?key=${apikey}`);
-            if (!resp.ok) throw new Error(`HTTP error! status: ${resp.status}`);
-            let result = await resp.json();
-            let cart = result.data.recipe;
-            cart.RecipeId = recipeId;
-            delete cart.id;
-            cartRequest(cart, 'SaveCart');
-        } catch (error) {
-            console.error("Error adding to cart:", error);
-        }
+        let resp = await fetch(`${apiURL}/${recipeId}?key=${apikey}`);
+        let result = await resp.json();
+        let cart = result.data.recipe;
+        cart.RecipeId = recipeId;
+        delete cart.id;
+        cartRequest(cart, 'SaveCart','fa-solid','fa-regular',iTag);
     } else {
-        console.log("Item is already in the cart.");
+
     }
 }
 
+
+
+// Asigură-te că fiecare iconiță are un event listener
+$(document).ready(function () {
+    $(".addToCartIcon").on("click", cart);
+});
+
 // Trimitere cerere pentru coș
-function cartRequest(data, action) {
+function cartRequest(data, action, addcls, removecls, iTag) {
     $.ajax({
         url: '/Cart/' + action,
         type: 'POST',
         data: data,
-        success: function (resp) {
-            console.log("Cart updated successfully:", resp);
+        success: function () {
+            $(iTag).addClass(addcls);
+            $(iTag).removeClass(removecls);
         },
         error: function (err) {
             console.error("Error updating cart:", err);
         }
     });
 }
+
+// Obține articolele adăugate la coș
+function getAddedCarts() {
+    $.ajax({
+        url: '/Cart/GetAddedCarts',
+        type: 'GET',
+        dataType: 'json',
+        success: function (result) {
+            console.log("Rezultate de la server:", result);
+            $('.addToCartIcon').each((_, spanTag) => {
+                let recipeId = $(spanTag).attr("data-recipeId");
+                for (var i = 0; i < result.length; i++) {
+                    if (recipeId == result[i]) {
+                        let itag = $(spanTag).children('i')[0];
+                        $(itag).addClass('fa-solid');
+                        $(itag).removeClass('fa-regular');
+                        break;
+                    }
+                }
+            });
+        },
+        error: function (err) {
+            console.error("Error fetching cart items:", err);
+        }
+    });
+}
+
+// Apelare la încărcarea DOM-ului
+$(document).ready(() => {
+    getAddedCarts();
+});
