@@ -102,10 +102,10 @@ async function cart() {
         delete cart.id;
         cartRequest(cart, 'SaveCart','fa-solid','fa-regular',iTag);
     } else {
-
+        let data = { Id: recipeId };
+        cartRequest(data, 'RemoveCartFromList','fa-regular','fa-solid',iTag)
     }
 }
-
 
 
 // Asigură-te că fiecare iconiță are un event listener
