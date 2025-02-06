@@ -159,3 +159,18 @@ function getAddedCarts() {
 $(document).ready(() => {
     getAddedCarts();
 });
+
+
+function getCartList() {
+    $.ajax({
+        url: 'Cart/GetCartList',
+        type: 'GET',
+        dataType: 'html',
+        success: function (result) {
+            $('#showCartList').html(result);
+        },
+        error: function (err) {
+            console.log(err);
+        }
+    });
+}

@@ -119,3 +119,22 @@ header{
 .bg-black{
     backdrop-color:#0d243d;
 }
+
+#showCartList{
+    display:none;
+    right:20px;
+    width:400px;
+}
+
+#cartListIcon:hover ~#showCartList{
+    display:block;
+}
+
+.cartListImg{
+    width:100px;
+    height:60px;
+}
+
+#showCartList:hover {
+    display: block;
+}

@@ -80,5 +80,13 @@ namespace FoodApplication.Controllers
             }
             return BadRequest();
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetCartList()
+        {
+            var user = await data.GetUser(HttpContext.User);
+            var cartList = context.Carts.Where(c => c.UserId ==user.Id).Take(3).ToList();
+            return PartialView("_CartList",cartList);
+        }
     }
 }

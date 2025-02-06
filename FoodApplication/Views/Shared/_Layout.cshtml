@@ -36,7 +36,10 @@
                     {
                         <div class="d-flex justify-content-center align-content-center">
                             <div class="text-center">
-                                <span><i class="fa-solid fa-cart-shopping text-pink fs-4"></i></span>
+                                <span class="p-4" id="cartListIcon"><i class="fa-solid fa-cart-shopping text-pink fs-4"></i></span>
+                                <div id="showCartList" 
+                                    class="position-absolute shadow rounded p-2 bg-white">
+                                </div>
                             </div>
                             <div>
                               <a class="nav-link fw-bold text-pink"
@@ -106,6 +109,7 @@
         <script type="text/javascript">
             $(document).ready(function(){
                 getAddedCarts();
+                getCartList();
             }) 
         </script>
     }
