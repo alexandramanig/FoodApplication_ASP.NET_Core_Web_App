@@ -22,9 +22,17 @@ namespace FoodApplication.Controllers
         public async Task<IActionResult> Index()
         {
             var user = await data.GetUser(HttpContext.User);
-            var cartsList = context.Carts.Where(c=>c.UserId == user.Id).ToList();
-            return View();
+            var cartsList = await context.Carts.Where(c => c.UserId == user.Id).ToListAsync();
+
+            // Dacă cartsList este null, initializează-l cu o listă goală
+            if (cartsList == null)
+            {
+                cartsList = new List<Cart>();
+            }
+
+            return View(cartsList);
         }
+
 
         [HttpPost]
         public async Task<IActionResult> SaveCart(Cart cart)
