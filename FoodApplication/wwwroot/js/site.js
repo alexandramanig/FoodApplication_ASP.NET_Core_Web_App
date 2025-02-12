@@ -94,18 +94,31 @@ function quantity(option) {
 async function cart() {
     let iTag = $(this).children('i')[0];
     let recipeId = $(this).attr('data-recipeId');
+
+    console.log("Clicked recipeId:", recipeId); // Log pentru debugging
+
+    if (!recipeId) {
+        console.error("Missing recipeId on the clicked element.");
+        return;
+    }
+
     if ($(iTag).hasClass('fa-regular')) {
         let resp = await fetch(`${apiURL}/${recipeId}?key=${apikey}`);
+        if (!resp.ok) {
+            console.error("Error fetching recipe:", resp.status);
+            return;
+        }
         let result = await resp.json();
         let cart = result.data.recipe;
         cart.RecipeId = recipeId;
         delete cart.id;
-        cartRequest(cart, 'SaveCart','fa-solid','fa-regular',iTag);
+        cartRequest(cart, 'SaveCart', 'fa-solid', 'fa-regular', iTag, false);
     } else {
         let data = { Id: recipeId };
-        cartRequest(data, 'RemoveCartFromList','fa-regular','fa-solid',iTag)
+        cartRequest(data, 'RemoveCartFromList', 'fa-regular', 'fa-solid', iTag, false);
     }
 }
+
 
 
 // Asigură-te că fiecare iconiță are un event listener
@@ -114,14 +127,18 @@ $(document).ready(function () {
 });
 
 // Trimitere cerere pentru coș
-function cartRequest(data, action, addcls, removecls, iTag) {
+function cartRequest(data, action, addcls, removecls, iTag, isReload) {
     $.ajax({
         url: '/Cart/' + action,
         type: 'POST',
         data: data,
-        success: function () {
-            $(iTag).addClass(addcls);
-            $(iTag).removeClass(removecls);
+        success: function (resp) {
+            if (isReload) {
+                location.reload();
+            } else {
+                $(iTag).addClass(addcls);
+                $(iTag).removeClass(removecls);
+            }
         },
         error: function (err) {
             console.error("Error updating cart:", err);
@@ -137,7 +154,7 @@ function getAddedCarts() {
         dataType: 'json',
         success: function (result) {
             console.log("Rezultate de la server:", result);
-            $('.addToCartIcon').each((_, spanTag) => {
+            $('.addToCartIcon').each((index, spanTag) => {
                 let recipeId = $(spanTag).attr("data-recipeId");
                 for (var i = 0; i < result.length; i++) {
                     if (recipeId == result[i]) {
@@ -163,7 +180,7 @@ $(document).ready(() => {
 
 function getCartList() {
     $.ajax({
-        url: 'Cart/GetCartList',
+        url: '/Cart/GetCartList',
         type: 'GET',
         dataType: 'html',
         success: function (result) {
@@ -173,4 +190,10 @@ function getCartList() {
             console.log(err);
         }
     });
+}
+
+function removeCartfromList(id) {
+    console.log(id);
+    let data = { Id: id };
+    cartRequest(data, 'RemoveCartFromList', null, null, null,true);
 }
